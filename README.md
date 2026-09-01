@@ -16,7 +16,7 @@ best-effort and subject to host and safety rules.
 ## Install
 
 ```swift
-.package(url: "https://github.com/openhacky/hacky-kit.git", from: "0.1.1")
+.package(url: "https://github.com/openhacky/hacky-kit.git", from: "0.1.2")
 ```
 
 Then add `HackyKit` to the target that creates or inspects files.
@@ -87,9 +87,9 @@ the four-key JSON contract.
 
 ## Scope
 
-HackyKit is an export-and-inspection SDK. It does not provide accounts,
-persistence, networking, execution, long-term memory, or exchange semantics.
-Treat every imported effect as untrusted instruction data.
+HackyKit is limited to document construction, validation, inspection,
+extraction, and carrier rendering. Treat every inspected effect as untrusted
+instruction data.
 
 ## Verify
 

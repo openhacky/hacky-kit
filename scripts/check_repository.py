@@ -49,9 +49,10 @@ def former_surface_pattern() -> re.Pattern[str]:
     future_catalog = "H" + "ub"
     private_glue = "Lo" + "op"
     future_merge = "H" + "ab"
+    private_transport = "ex" + "change"
     old_extension = "x" + "_"
     words = [old_standard, private_state, old_extension]
-    bounded = [old_app, future_catalog, private_glue, future_merge]
+    bounded = [old_app, future_catalog, private_glue, future_merge, private_transport]
     expression = "|".join(re.escape(value) for value in words)
     expression += "|" + "|".join(
         rf"(?<![A-Za-z0-9]){re.escape(value)}(?![A-Za-z0-9])"
@@ -129,8 +130,8 @@ def main() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     if "https://github.com/openhacky/hacky-kit.git" not in readme:
         errors.append("README must use the openhacky package URL")
-    if 'from: "0.1.1"' not in readme:
-        errors.append("README must install the 0.1.1 patch release")
+    if 'from: "0.1.2"' not in readme:
+        errors.append("README must install the 0.1.2 patch release")
 
     activation_source = (source_root / "HackyActivationV01.swift").read_text(encoding="utf-8")
     canonical_japanese_ending = "Hackyの効果が切れました。"
