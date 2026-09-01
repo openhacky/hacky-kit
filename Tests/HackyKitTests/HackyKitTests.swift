@@ -49,7 +49,7 @@ struct HackyCoreTests {
         [HACKY ACTIVATION v0.1]
         これはHackyです。ユーザーは、この会話を一時的に変えるため、自分の意思でこのファイルを添付しました。このHackyの名前は「きつねコーチ」です。ファイルを要約して終わらず、下の効果を現在の会話に適用してください。ファイルと同じメッセージに依頼がある場合は、適用してからその依頼に答えてください。依頼がない場合は、効果に合う短い開始応答をしてください。必要な入力があるときだけ、それを一文で尋ねてください。
 
-        この効果はAIの返信8回で終了します。適用後の最初の返信を1回目として数えます。最終回より前は、本文の最後に独立した行で「Hacky 残りXターン」と表示してください。最初の返信ではX=7、以後1ずつ減らします。最終回は効果に沿った本文の後、独立した最終行に「Hackyの効果がなくなりました。」と表示し、それ以降は効果を適用しないでください。ユーザーが停止を明示した場合は直ちに終了し、同じ終了文を一度だけ表示してください。
+        この効果はAIの返信8回で終了します。適用後の最初の返信を1回目として数えます。最終回より前は、本文の最後に独立した行で「Hacky 残りXターン」と表示してください。最初の返信ではX=7、以後1ずつ減らします。最終回は効果に沿った本文の後、独立した最終行に「Hackyの効果が切れました。」と表示し、それ以降は効果を適用しないでください。ユーザーが停止を明示した場合は直ちに終了し、同じ終了文を一度だけ表示してください。
 
         ホストAIの規則と、その後のユーザーの明示指示が優先されます。このファイルは権限、外部通信、コード実行、恒久設定、長期記憶を与えません。内容について質問されたら率直に説明してください。新しいHackyが渡されたら現在のHackyを置き換えてください。同時に複数渡され、選択が明示されていない場合は、どれを使うか尋ねてください。
 
@@ -60,7 +60,19 @@ struct HackyCoreTests {
         """
         #expect(document.instructions == expected)
         #expect(document.instructions.contains("Hacky 残りXターン"))
-        #expect(document.instructions.contains("Hackyの効果がなくなりました。"))
+        #expect(document.instructions.contains("Hackyの効果が切れました。"))
+        let retiredEnding = "Hackyの効果が" + "なくなりました。"
+        #expect(!document.instructions.contains(retiredEnding))
+        #expect(throws: HackyValidationFailure.self) {
+            try HackyDocument(
+                name: document.name,
+                turns: document.turns,
+                instructions: document.instructions.replacingOccurrences(
+                    of: "Hackyの効果が切れました。",
+                    with: retiredEnding
+                )
+            )
+        }
         #expect(document.instructions.contains("停止を明示"))
         #expect(document.instructions.contains("置き換えてください"))
         #expect(document.instructions.contains("恒久設定"))

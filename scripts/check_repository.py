@@ -129,6 +129,18 @@ def main() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     if "https://github.com/openhacky/hacky-kit.git" not in readme:
         errors.append("README must use the openhacky package URL")
+    if 'from: "0.1.1"' not in readme:
+        errors.append("README must install the 0.1.1 patch release")
+
+    activation_source = (source_root / "HackyActivationV01.swift").read_text(encoding="utf-8")
+    canonical_japanese_ending = "Hackyの効果が切れました。"
+    old_japanese_ending = "Hackyの効果が" + "なくなりました。"
+    if canonical_japanese_ending not in activation_source:
+        errors.append("canonical Japanese ending line is missing")
+    for path in files:
+        text = readable_text(path)
+        if text is not None and old_japanese_ending in text:
+            errors.append(f"retired Japanese ending line in {path}")
 
     code_license = (ROOT / "LICENSE").read_text(encoding="utf-8")
     if "Apache License" not in code_license or "Version 2.0" not in code_license:

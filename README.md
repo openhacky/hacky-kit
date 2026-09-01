@@ -16,7 +16,7 @@ best-effort and subject to host and safety rules.
 ## Install
 
 ```swift
-.package(url: "https://github.com/openhacky/hacky-kit.git", from: "0.1.0")
+.package(url: "https://github.com/openhacky/hacky-kit.git", from: "0.1.1")
 ```
 
 Then add `HackyKit` to the target that creates or inspects files.
@@ -44,6 +44,8 @@ func makeHacky(from character: Character) throws -> HackyDocument {
 effect. Pass `locale: .japanese` for the fixed meaning-equivalent Japanese
 activation. Both variants enforce finite replies, remaining-turn display,
 immediate stop, replacement by a new file, and one expiry message.
+The fixed ending lines are `Hacky effect ended.` in English and
+`Hackyの効果が切れました。` in Japanese.
 
 ## Encode and export
 
