@@ -1,0 +1,16 @@
+name: HackyKit release gates
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  swift:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/check_repository.py
+      - run: swift test
